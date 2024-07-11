@@ -1,0 +1,36 @@
+<!-- SLIDER -->
+<h2> {{ params.title }} </h2>
+<div class="d-flex justify-content-center align-items-center mx-auto my-5">
+
+    <swiper [config]="config" class="mySwiper">
+
+        <ng-template swiperSlide style="border-radius: 2rem;" *ngFor="let product of products">
+            <div class="card product-card card-static pb-3">
+                <span *ngIf="product.offert" class="badge bg-danger badge-shadow"> {{ product.offertPercent }}% </span>
+                <a class="card-img-top d-block overflow-hidden" [routerLink]="['/producto', product.pid]">
+                  <img *ngIf="product.img.length > 0" [src]="product.img[0].img | imagen " alt="Product" class="loaded tns-complete">
+                  <img *ngIf="product.img.length === 0" [src]="'none' | imagen " alt="Product" class="loaded tns-complete">
+                </a>
+                <div class="card-body py-2">
+                    <a class="product-meta d-block fs-xs pb-1"> {{ product.categoria.name }} </a>
+                    <h3 class="product-title fs-sm text-truncate">
+                        <a [routerLink]="['/producto', '1as56dsad2sad2sa5d2sa2d']"> {{ product.name }} </a>
+                    </h3>
+                    <div class="product-price">
+                        <span class="text-accent">
+                            <span *ngIf="product.offert"> {{ product.offertPrice | currency:'COP': 'symbol': '1.0-0' }} </span>
+                        <span *ngIf="!product.offert"> {{ product.price | currency:'COP': 'symbol': '1.0-0' }} </span>
+                        </span>
+                        <del *ngIf="product.offert" class="fs-sm text-muted"> {{ product.price | currency:'COP': 'symbol': '1.0-0' }} </del>
+                    </div>
+                </div>
+                <div class="product-floating-btn">
+                    <button (click)="addProductCart(product, 1)" class="btn btn-primary btn-shadow btn-sm" type="button">+<i class="ci-cart fs-base ms-1"></i></button>
+                </div>
+            </div>
+        </ng-template>
+
+
+    </swiper>
+</div>
+<!-- SLIDER -->

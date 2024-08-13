@@ -25,6 +25,7 @@ export class LoginComponent {
    * LOGIN
   =============================================================== */
   public formSubmitted: boolean = false;
+  public btnLogin: boolean = false;
   public loginForm = this.fb.group({
     email: [localStorage.getItem('email') || '' , [Validators.required, Validators.minLength(3)]],
     password: ['', [Validators.required, Validators.minLength(3)]],
@@ -34,16 +35,19 @@ export class LoginComponent {
   login(){
 
     this.formSubmitted = true;
+    this.btnLogin = true;
     
     if (this.loginForm.invalid) {
+      this.btnLogin = false;
       return;
     }
-
+    
     this.userService.login(this.loginForm.value)
-        .subscribe( resp => {          
-
-          if (resp === false) {
-            Swal.fire('Atención', 'Credenciales incorrectas, porfavor verificar el email o contraseña', 'warning')
+    .subscribe( resp => {          
+      
+      if (resp === false) {
+          this.btnLogin = false;
+          Swal.fire('Atención', 'Credenciales incorrectas, porfavor verificar el email o contraseña', 'warning')
             return;
           }          
 
@@ -53,12 +57,17 @@ export class LoginComponent {
             localStorage.removeItem('email');
           }
 
-          // INGRESAR
-          this.ngZone.run( () => {
-            window.location.href = `${local_url}/dashboard`
-          });
+          setTimeout( ()=>{
+            this.ngZone.run( () => {
+              window.location.href = `${local_url}/`
+            });
+            this.btnLogin = false;            
+          }, 2000)
 
-        }, (err) => { Swal.fire('Error', err.error.msg, 'error'); });
+        }, (err) => { 
+          this.btnLogin = false;
+          Swal.fire('Error', err.error.msg, 'error');
+        });
 
   }
 

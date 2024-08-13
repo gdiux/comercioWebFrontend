@@ -1,8 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Pedido } from 'src/app/models/pedidos.model';
+import { Product } from 'src/app/models/products.model';
 import { User } from 'src/app/models/user.model';
 import { CarritoService } from 'src/app/services/carrito.service';
 import { PedidosService } from 'src/app/services/pedidos.service';
+import { ProductsService } from 'src/app/services/products.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
@@ -22,6 +24,7 @@ export class CarritoComponent implements OnInit {
 
   constructor(  private carritoService: CarritoService,
                 private pedidosService: PedidosService,
+                private productsService: ProductsService,
                 private userService: UserService){
     this.carrito = carritoService.cart;
   }
@@ -47,6 +50,69 @@ export class CarritoComponent implements OnInit {
       }      
 
     }
+
+    // LOAD CARRITO
+    this.loadItems();
+
+  }
+
+  /** ================================================================
+   *  LOAD CARRITO
+  ==================================================================== */
+  public produtsDB: Product[] = [];
+  loadItems(){
+
+    
+    if (this.carrito.items.length > 0) {
+      
+      let pro = [];
+      for (const it of this.carrito.items) {
+        pro.push({
+          sku: it.product.sku
+        })
+      }
+
+      let itt = [pro]
+
+      let query = {
+        desde: 0,
+        hasta: 1000,
+        $or: itt[0]
+      }
+      
+      this.productsService.loadProducts(query)
+          .subscribe( ({products}) =>{
+
+            this.produtsDB = products;
+
+          }, (err) => {
+            console.log(err);
+            Swal.fire('Error', err.error.msg, 'error');            
+          })
+      
+      
+    }
+
+  }
+
+  /** ================================================================
+   *  UPDATE CANT
+  ==================================================================== */
+  updateCant(product: Product, qty: any){
+
+    qty = Number(qty);
+    
+    this.produtsDB.map( (prod) => {
+
+      if (prod.pid === product.pid) {
+        
+        this.carritoService.upCarrito(prod, qty);
+
+      }
+
+    })
+     
+
 
   }
 

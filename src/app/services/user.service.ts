@@ -56,6 +56,8 @@ export class UserService {
                       .pipe(
                         tap( (resp: any) => {
                           localStorage.setItem('token', resp.token);
+                          this.isLogin = true;
+                          
                         }),
                         catchError( error => of(false) )
                       );
@@ -82,6 +84,7 @@ export class UserService {
         this.user = new User( name, lastname, cedula, phone, email, '***', address, city, department, 'party_type', referralCode, referredBy, walletBalance, status, fecha, cid );        
 
         localStorage.setItem('token', resp.token);
+        this.isLogin = true;
 
       }),
       map( resp => true ),
@@ -94,7 +97,15 @@ export class UserService {
    *   REGISTER
   ==================================================================== */
   register(formData: any){
-    return this.http.post<{ok: boolean, client: User}>(`${base_url}/clients/web`, formData);
+    return this.http.post<{ok: boolean, client: User}>(`${base_url}/clients/web`, formData)
+                .pipe(
+                  tap( (resp: any) => {
+                    localStorage.setItem('token', resp.token);
+                    this.isLogin = true;
+                    this.validateToken();
+                  }),
+                  catchError( error => of(false) )
+                );
   }
 
   /** ================================================================

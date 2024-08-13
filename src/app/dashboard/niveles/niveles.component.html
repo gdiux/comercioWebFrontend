@@ -17,6 +17,10 @@
                     <div class="accordion-collapse collapse show" id="collapseOne" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
 
+                            <div>
+                                <i class="ci-user"></i> {{ first.length }}
+                            </div>
+                            <hr>
                             <div class="d-flex flex-wrap gap-2">
                                 <p class="mb-0" *ngIf="first.length === 0">No tienes ningun referido en este nivel</p>
                                 <span class="badge bg-accent" *ngFor="let item of first"> {{ item.name +' '+item.lastname }} </span>
@@ -34,6 +38,11 @@
                     <div class="accordion-collapse collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
 
                         <div class="accordion-body">
+
+                            <div>
+                                <i class="ci-user"></i> {{ two.length }}
+                            </div>
+                            <hr>
                             <div class="d-flex flex-wrap gap-2">
                                 <p class="mb-0" *ngIf="two.length === 0">No tienes ningun referido en este nivel</p>
                                 <span class="badge bg-accent" *ngFor="let item of two"> {{ item.name +' '+item.lastname }} </span>
@@ -49,6 +58,10 @@
                     </h2>
                     <div class="accordion-collapse collapse" id="collapseThree" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
+                            <div>
+                                <i class="ci-user"></i> {{ three.length }}
+                            </div>
+                            <hr>
                             <div class="d-flex flex-wrap gap-2">
                                 <p class="mb-0" *ngIf="three.length === 0">No tienes ningun referido en este nivel</p>
                                 <span class="badge bg-accent" *ngFor="let item of three"> {{ item.name +' '+item.lastname }} </span>
@@ -63,6 +76,10 @@
                     </h2>
                     <div class="accordion-collapse collapse" id="collapseFour" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
+                            <div>
+                                <i class="ci-user"></i> {{ four.length }}
+                            </div>
+                            <hr>
                             <div class="d-flex flex-wrap gap-2">
                                 <p class="mb-0" *ngIf="four.length === 0">No tienes ningun referido en este nivel</p>
                                 <span class="badge bg-accent" *ngFor="let item of four"> {{ item.name +' '+item.lastname }} </span>

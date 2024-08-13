@@ -62,9 +62,6 @@
                     </div>
                 </ng-container>
 
-
-
-
                 <div class="navbar-tool dropdown ms-3">
 
                     <a class="navbar-tool-icon-box bg-secondary dropdown-toggle" routerLink="/carrito">
@@ -122,7 +119,7 @@
         <div class="card pt-2 pb-4 border-0 rounded-0">
             <div class="container">
                 <div class="input-group"><i class="ci-search position-absolute top-50 start-0 translate-middle-y ms-3"></i>
-                    <input (keyup.enter)="search(sear.value)" #sear class="form-control rounded-start" type="text" placeholder="Buscar Productos">
+                    <input (keydown.enter)="search(sear.value)" #sear class="form-control rounded-start" type="text" placeholder="Buscar Productos">
                 </div>
             </div>
         </div>

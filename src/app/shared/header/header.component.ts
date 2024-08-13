@@ -32,6 +32,7 @@ export class HeaderComponent implements OnInit {
                 private userService: UserService  ){
       this.carrito = carritoService.cart;
       this.user = userService.user;
+      this.login = userService.isLogin;
   }
 
   ngOnInit(): void {

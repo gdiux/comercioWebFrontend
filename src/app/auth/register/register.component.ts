@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
+
+import { environment } from '../../../environments/environment';
+const local_url = environment.local_url;
 
 @Component({
   selector: 'app-register',
@@ -15,7 +18,8 @@ export class RegisterComponent {
   constructor(  private userService: UserService,
                 private fb: FormBuilder,
                 private router: Router,
-                private activatedRoute: ActivatedRoute){
+                private activatedRoute: ActivatedRoute,
+                private ngZone: NgZone){
 
                   activatedRoute.queryParams.subscribe( ({referCode}) => {
                     
@@ -39,6 +43,9 @@ export class RegisterComponent {
     cedula:   ['',    [Validators.required]],
     phone:      ['',    [Validators.required]],
     email:      ['',    [Validators.required]],
+    address:      ['',    [Validators.required]],
+    city:      ['',    [Validators.required]],
+    department:      ['',    [Validators.required]],
     password:   ['',    [Validators.required]],
     repassword: ['',    [Validators.required]],
     termns:     [false, [Validators.requiredTrue]],
@@ -67,7 +74,13 @@ export class RegisterComponent {
           Swal.fire('Estupendo', 'se ha registrado exitosamente', 'success');
           this.newForm.reset();
 
-          this.router.navigateByUrl('/login');
+          // INGRESAR
+          // INGRESAR
+          setTimeout( ()=>{
+            this.ngZone.run( () => {
+              window.location.href = `${local_url}/`
+            });
+          }, 2000 )
           
         }, (err) => {
           console.log(err);

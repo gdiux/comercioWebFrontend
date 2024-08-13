@@ -99,6 +99,10 @@ export class CarritoService {
             item.qty = product.inventory;
           }
 
+          if (item.qty <= 0) {
+            item.qty = 1;
+          }
+
         }
       })
     }

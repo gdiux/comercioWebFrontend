@@ -1,3 +1,5 @@
+import { Carrito } from "../interfaces/carrito.interface";
+
 export class User{
 
     constructor(
@@ -16,6 +18,7 @@ export class User{
         public walletBalance: number,
         public status: boolean,
         public fecha: Date,
+        public carrito?: Carrito,
         public cid?: string,
         public _id?: string,
     ){}

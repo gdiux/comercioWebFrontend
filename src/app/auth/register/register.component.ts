@@ -6,6 +6,7 @@ import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
 import { environment } from '../../../environments/environment';
+import { AuthService } from 'src/app/services/auth.service';
 const local_url = environment.local_url;
 
 @Component({
@@ -16,6 +17,7 @@ const local_url = environment.local_url;
 export class RegisterComponent {
 
   constructor(  private userService: UserService,
+                private authService: AuthService,
                 private fb: FormBuilder,
                 private router: Router,
                 private activatedRoute: ActivatedRoute,
@@ -67,7 +69,7 @@ export class RegisterComponent {
 
     this.newForm.value.referredBy = localStorage.getItem('referCode') || '';
 
-    this.userService.register(this.newForm.value)
+    this.authService.register(this.newForm.value)
         .subscribe( ({}) => {
 
           this.formSubmitted = false;

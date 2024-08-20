@@ -8,8 +8,8 @@ import { DashboardRoutingModule } from './dashboard/dashboard.routing';
 import { HomeComponent } from './pages/home/home.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', redirectTo: '/home', pathMatch: 'full' },
+  { path: '', redirectTo: '/home', pathMatch: 'full', data:{ title: 'Inicio' }},
+  { path: '**', redirectTo: '/home', pathMatch: 'full', data:{ title: 'Inicio' }},
 ];
 
 @NgModule({

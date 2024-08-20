@@ -12,6 +12,7 @@ const routes: Routes = [
     { 
         path: '',
         component: PagesComponent,
+        data:{ title: 'Inicio' },
         children:
         [
             { path: '', component: HomeComponent, data:{ title: 'Inicio' } },

@@ -62,9 +62,7 @@ export class CarritoComponent implements OnInit {
   public produtsDB: Product[] = [];
   loadItems(){
 
-    
-    if (this.carrito.items.length > 0) {
-      
+    if (this.carrito.items.length > 0) {      
       let pro = [];
       for (const it of this.carrito.items) {
         pro.push({

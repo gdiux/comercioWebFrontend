@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Carrito } from '../interfaces/carrito.interface';
 import { Product } from '../models/products.model';
+import { UserService } from './user.service';
+import Swal from 'sweetalert2';
 
 
 
@@ -14,21 +16,24 @@ export class CarritoService {
     total: 0
   };
 
-  constructor( ) { }
+  public isLogin: boolean = false;
+
+  constructor(  private userService: UserService) { }
 
   /** ================================================================
    *  DEL CART
   ==================================================================== */
-  deleteCart(){
+  // deleteCart(){
 
-    this.cart = {
-      items: [],
-      total: 0
-    }
+  //   this.cart = {
+  //     items: [],
+  //     total: 0
+  //   }
 
-    localStorage.removeItem('cart');
+  //   localStorage.removeItem('cart');
+  //   this.sumarTotales();
 
-  }
+  // }
 
   /** ================================================================
    *  GET CART
@@ -61,14 +66,37 @@ export class CarritoService {
 
     localStorage.setItem('cart', JSON.stringify(this.cart));
 
+    if (this.isLogin) {      
+      
+      let its: any[] = [];
+      for (const item of this.cart.items) {
+        its.push({
+          product: item.product.pid,
+          qty: item.qty,
+          price: item.price
+        });
+      }
+
+      let cart = {
+        items: its,
+        total: this.cart.total
+      }
+
+      this.userService.updateUser({carrito: cart}, this.userService.user._id!).subscribe();
+      
+    }
+
   }
 
   /** ================================================================
    *  GET CARRITO
   ==================================================================== */
-  upCarrito(product: Product, qty: number){  
+  upCarrito(product: Product, qty: number, precio: number = 0){  
 
-    let precio = product.price;
+
+    if (!precio) {
+      precio = product.price;      
+    }
 
     if (product.offert) {
       precio = product.offertPrice;
@@ -106,6 +134,15 @@ export class CarritoService {
         }
       })
     }
+
+    Swal.fire({
+      position: "top-end",
+      toast: true,
+      icon: "success",
+      text: "Item agregado",
+      showConfirmButton: false,
+      timer: 1500
+    });
 
     // this.cart.total = this.cart.total + Number(qty * product.price); 
     this.sumarTotales();

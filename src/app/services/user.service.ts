@@ -1,11 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, catchError, map, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, of, tap } from 'rxjs';
 
 import { User } from '../models/user.model';
 
+import { CarritoService } from './carrito.service';
+import { _item } from '../interfaces/carrito.interface';
+
 import { environment } from '../../environments/environment';
+import { AuthService } from './auth.service';
 const base_url = environment.base_url;
 
 @Injectable({
@@ -14,10 +18,11 @@ const base_url = environment.base_url;
 export class UserService {
 
   public user!: User;
-  public isLogin: boolean = false;
+  
 
   constructor(  private http: HttpClient,
-                private router: Router) { }
+                private router: Router,
+                private ngZone: NgZone) { }
   
   /** ================================================================
    *   GET TOKEN
@@ -38,75 +43,11 @@ export class UserService {
   }
 
   /** ================================================================
-   *   LOGOUT
-  ==================================================================== */
-  logout(){
-    
-    localStorage.removeItem('token');
-    this.router.navigateByUrl('/home');
-
-  }
-
-  /** ================================================================
-   *  LOGIN
-  ==================================================================== */
-  login( formData: any ){
-    
-    return this.http.post(`${base_url}/login/user`, formData)
-                      .pipe(
-                        tap( (resp: any) => {
-                          localStorage.setItem('token', resp.token);
-                          this.isLogin = true;
-                          
-                        }),
-                        catchError( error => of(false) )
-                      );
-  }
-
-  /** ================================================================
    *   RECUPERAR PASSWORD
   ==================================================================== */
   recuperarPassword( formData: any ){
     return this.http.post(`${base_url}/login/recuperar/password`, formData);
-  }  
-
-  /** ================================================================
-   *   VALIDATE TOKEN OR RENEW TOKEN
-  ==================================================================== */
-  validateToken():Observable<boolean>{
-    
-    return this.http.get(`${base_url}/login/user/renew`, this.headers)
-    .pipe(
-      tap( (resp: any) => {
-
-        const { name, lastname, cedula, phone, email, address, city, department, referralCode, referredBy, walletBalance, status, cid, fecha} = resp.usuario;
-
-        this.user = new User( name, lastname, cedula, phone, email, '***', address, city, department, 'party_type', referralCode, referredBy, walletBalance, status, fecha, cid );        
-
-        localStorage.setItem('token', resp.token);
-        this.isLogin = true;
-
-      }),
-      map( resp => true ),
-      catchError( error => of(false) )
-    );
-
-  }
-
-  /** ================================================================
-   *   REGISTER
-  ==================================================================== */
-  register(formData: any){
-    return this.http.post<{ok: boolean, client: User}>(`${base_url}/clients/web`, formData)
-                .pipe(
-                  tap( (resp: any) => {
-                    localStorage.setItem('token', resp.token);
-                    this.isLogin = true;
-                    this.validateToken();
-                  }),
-                  catchError( error => of(false) )
-                );
-  }
+  } 
 
   /** ================================================================
    *  UPDATE USER

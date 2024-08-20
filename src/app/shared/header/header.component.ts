@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 
@@ -8,6 +8,7 @@ import { Carrito } from 'src/app/interfaces/carrito.interface';
 
 import { CarritoService } from 'src/app/services/carrito.service';
 import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 interface _carrito{
   items: any[],
@@ -23,16 +24,21 @@ interface _carrito{
 
 export class HeaderComponent implements OnInit {
 
-  public carrito!: _carrito;
+  public carrito: any;
   public user!: User;
-  public login: boolean = false;
+
+  isLoggedIn = false;
 
   constructor(  private carritoService: CarritoService,
                 private router: Router,
-                private userService: UserService  ){
+                private userService: UserService,
+                private authService: AuthService,
+                private cd: ChangeDetectorRef  ){      
+      
       this.carrito = carritoService.cart;
       this.user = userService.user;
-      this.login = userService.isLogin;
+      
+      
   }
 
   ngOnInit(): void {
@@ -42,6 +48,15 @@ export class HeaderComponent implements OnInit {
 
     this.carritoService.getCartLocal();
 
+    this.authService.loggedIn$.subscribe(
+      loggedIn => {
+        this.isLoggedIn = loggedIn;
+        this.cd.detectChanges(); // Fuerza la detección de cambios si es necesario
+      }
+    );
+
+   
+
   }
 
   /** ================================================================
@@ -50,11 +65,11 @@ export class HeaderComponent implements OnInit {
   cargarUser(){
 
     if (!localStorage.getItem('token')) {
-      this.login = false;
+      this.isLoggedIn = false;
       return;
     }else{
-      this.login = true;
-      this.userService.validateToken()
+      this.isLoggedIn = true;
+      this.authService.validateToken()
       .subscribe( resp => {
         
         if (resp) {
@@ -64,7 +79,7 @@ export class HeaderComponent implements OnInit {
 
           localStorage.removeItem('token');
           window.location.reload();
-          this.login = false;
+          this.isLoggedIn = false;
         }        
 
       });
@@ -83,17 +98,16 @@ export class HeaderComponent implements OnInit {
    *  SEARCH PRODUCT
   ==================================================================== */
   search(termino: string){
-
-    this.router.navigateByUrl(`/search/producto/${termino}`)
-
+    this.router.navigateByUrl(`/search/producto/${termino}`);
   }
 
   /** ================================================================
    *  LOGOUT
   ==================================================================== */
-  logout(){ 
-    this.login = false;
-    this.userService.logout();
+  logout(){    
+    
+    this.authService.logout();
+    this.isLoggedIn = false;
   }
 
   // FIN DE LA CLASE

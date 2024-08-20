@@ -52,7 +52,7 @@ export class PerfilComponent {
       return;
     }
 
-    this.userService.updateUser(this.updateForm.value, this.user.cid!)
+    this.userService.updateUser(this.updateForm.value, this.user._id!)
         .subscribe( ({client}) => {
 
           this.user.name = client.name;

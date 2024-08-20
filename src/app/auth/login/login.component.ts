@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { UserService } from 'src/app/services/user.service';
 
 import { environment } from '../../../environments/environment';
+import { AuthService } from 'src/app/services/auth.service';
 
 const local_url = environment.local_url;
 
@@ -19,6 +20,7 @@ export class LoginComponent {
   constructor(  private router: Router,
                 private fb: FormBuilder,
                 private userService: UserService,
+                private authService: AuthService,
                 private ngZone: NgZone){}
 
   /** =============================================================
@@ -42,9 +44,9 @@ export class LoginComponent {
       return;
     }
     
-    this.userService.login(this.loginForm.value)
-    .subscribe( resp => {          
-      
+    this.authService.login(this.loginForm.value)
+    .subscribe( resp => {      
+            
       if (resp === false) {
           this.btnLogin = false;
           Swal.fire('Atención', 'Credenciales incorrectas, porfavor verificar el email o contraseña', 'warning')
@@ -56,13 +58,8 @@ export class LoginComponent {
           }else {
             localStorage.removeItem('email');
           }
-
-          setTimeout( ()=>{
-            this.ngZone.run( () => {
-              window.location.href = `${local_url}/`
-            });
-            this.btnLogin = false;            
-          }, 2000)
+          
+          this.router.navigate(['/home']);
 
         }, (err) => { 
           this.btnLogin = false;

@@ -32,8 +32,7 @@
                     </div>
                 </a>
 
-                <ng-container *ngIf="!login">
-
+                <div *ngIf="!isLoggedIn">
                     <a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2" routerLink="/login">
                         <div class="navbar-tool-icon-box">
                             <i class="navbar-tool-icon ci-user"></i>
@@ -42,34 +41,31 @@
                             <small>Hola, Entrar a</small>Mi cuenta
                         </div>
                     </a>
-                </ng-container>
+                </div>
 
-                <ng-container *ngIf="login">
+                <div *ngIf="isLoggedIn">
                     <div class="btn-group dropdown">
-
-                        <a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2 dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" *ngIf="user">
+                        <a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2 dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <div class="navbar-tool-icon-box"><i class="navbar-tool-icon ci-user"></i></div>
-                            <div class="navbar-tool-text ms-n3"><small>Hola, {{ user.name }}</small>Mi cuenta</div>
+                            <!-- <div class="navbar-tool-text ms-n3"><small>Hola, {{ user.name }}</small>Mi cuenta</div> -->
                         </a>
-
                         <div class="dropdown-menu dropdown-menu-end">
                             <a [routerLink]="['dashboard/perfil']" class="dropdown-item">Perfil</a>
                             <a [routerLink]="['dashboard/pedidos']" class="dropdown-item">Mis pedidos</a>
                             <div class="dropdown-divider"></div>
                             <button type="button" (click)="logout()" href="#" class="dropdown-item">Salir</button>
                         </div>
-
                     </div>
-                </ng-container>
+                </div>
 
                 <div class="navbar-tool dropdown ms-3">
 
                     <a class="navbar-tool-icon-box bg-secondary dropdown-toggle" routerLink="/carrito">
-              <span *ngIf="carrito.items.length > 0" class="navbar-tool-label"> {{ carrito.items.length }} </span>
-              <i class="navbar-tool-icon ci-cart"></i>
-            </a>
+                        <!-- <span *ngIf="carrito.items.length > 0" class="navbar-tool-label"> {{ carrito.items.length }} </span> -->
+                        <i class="navbar-tool-icon ci-cart"></i>
+                    </a>
 
-                    <a class="navbar-tool-text" routerLink="/carrito">
+                    <!-- <a class="navbar-tool-text" routerLink="/carrito">
                         <small>Carrito</small>{{ carrito.total | currency:'COP':'symbol':'1.0-0' }}
                     </a>
 
@@ -109,7 +105,7 @@
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

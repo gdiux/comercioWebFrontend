@@ -23,7 +23,7 @@
                             <hr>
                             <div class="d-flex flex-wrap gap-2">
                                 <p class="mb-0" *ngIf="first.length === 0">No tienes ningun referido en este nivel</p>
-                                <span class="badge bg-accent" *ngFor="let item of first"> {{ item.name +' '+item.lastname }} </span>
+                                <span class="badge pe-0 pr-0" *ngFor="let item of first" [ngClass]="{'bg-accent': item.activo, 'bg-warning': !item.activo}"> {{ item.name +' '+item.lastname }} <span class="px-3 pointer" (click)="selectUser(item)" data-bs-toggle="modal" data-bs-target="#modalUser"> <i class="ci-send"></i></span>                                </span>
                             </div>
 
                         </div>
@@ -45,7 +45,7 @@
                             <hr>
                             <div class="d-flex flex-wrap gap-2">
                                 <p class="mb-0" *ngIf="two.length === 0">No tienes ningun referido en este nivel</p>
-                                <span class="badge bg-accent" *ngFor="let item of two"> {{ item.name +' '+item.lastname }} </span>
+                                <span class="badge" [ngClass]="{'bg-accent': item.activo, 'bg-warning': !item.activo}" *ngFor="let item of two"> {{ item.name +' '+item.lastname }} </span>
                             </div>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                             <hr>
                             <div class="d-flex flex-wrap gap-2">
                                 <p class="mb-0" *ngIf="three.length === 0">No tienes ningun referido en este nivel</p>
-                                <span class="badge bg-accent" *ngFor="let item of three"> {{ item.name +' '+item.lastname }} </span>
+                                <span class="badge" [ngClass]="{'bg-accent': item.activo, 'bg-warning': !item.activo}" *ngFor="let item of three"> {{ item.name +' '+item.lastname }} </span>
                             </div>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                             <hr>
                             <div class="d-flex flex-wrap gap-2">
                                 <p class="mb-0" *ngIf="four.length === 0">No tienes ningun referido en este nivel</p>
-                                <span class="badge bg-accent" *ngFor="let item of four"> {{ item.name +' '+item.lastname }} </span>
+                                <span class="badge" [ngClass]="{'bg-accent': item.activo, 'bg-warning': !item.activo}" *ngFor="let item of four"> {{ item.name +' '+item.lastname }} </span>
                             </div>
                         </div>
                     </div>
@@ -94,3 +94,50 @@
     </div>
 
 </section>
+
+<!-- ========================================================= 
+    MODAL UPDATE TICKET
+======================================================== -->
+<div class="modal fade" id="modalUser" tabindex="-1" aria-labelledby="modalUserLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalUserLabel">Enviar Mensaje de Whatsapp</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- SEND WHATSAPP -->
+                <div *ngIf="userSelected" class="" id="whatsappTicket">
+
+                    <div *ngIf="!userSelected.phone">
+                        <h4>Este usuario no tiene ningun numero registrado</h4>
+                    </div>
+
+                    <div *ngIf="userSelected.phone">
+
+                        <h5 class="mb-1">Contacto</h5>
+                        <div class="card mb-2">
+                            <div class="card-body">
+                                <h5 class="card-title"> <span [ngClass]="{'text-success': userSelected.activo, 'text-warning': !userSelected.activo}"> <i class="ci-user"></i></span> {{userSelected.name +' '+userSelected.lastname}} </h5>
+                                <p class="card-text pb-0 mb-0"> Telefono: {{userSelected.phone}} </p>
+                                <p class="card-text"> email: {{userSelected.email}} </p>
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-1">
+                            <label class="fw-bold">Mensaje</label>
+                            <textarea #tWhatp class="form-control" rows="10" [value]="ticketWhatsapp"></textarea>
+                        </div>
+
+                        <button (click)="sendWhatsapp(tWhatp.value)" type="button" class="btn btn-success btn-rounded ms-auto"><i class="mdi mdi-whatsapp"></i> Enviar</button>
+                    </div>
+
+                </div>
+                <!-- SEND WHATSAPP -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

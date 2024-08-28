@@ -18,6 +18,7 @@ export class User{
         public walletBalance: number,
         public status: boolean,
         public fecha: Date,
+        public activo?: boolean,
         public carrito?: Carrito,
         public cid?: string,
         public _id?: string,

@@ -19,6 +19,27 @@ export class NivelesComponent {
   }
 
   /** ======================================================================
+   * USER SELETED
+  ====================================================================== */
+  public userSelected!: User;
+  public ticketWhatsapp: string = '';
+
+  selectUser(user: User){    
+    this.userSelected = user;
+    this.ticketWhatsapp = `Hola, ${this.userSelected.name} ${this.userSelected.lastname}. Un gusto saludarte\n`;
+  }
+
+  /** ================================================================
+   *   ENVIAR WHATSAPP
+  ==================================================================== */
+  sendWhatsapp(msg: string){
+    
+    let text = msg.replaceAll(' ','+').replaceAll('\n' , '%0A');
+    window.open(`whatsapp://send?text=${text}&phone=${this.userSelected.phone}`);
+    
+  }
+
+  /** ======================================================================
    * LOAD LEVELS
   ====================================================================== */
   public first: User[] = [];

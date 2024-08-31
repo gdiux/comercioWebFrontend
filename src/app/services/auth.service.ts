@@ -78,8 +78,8 @@ export class AuthService {
     .pipe(
       tap( (resp: any) => {
 
-        const { name, lastname, cedula, phone, email, address, city, department, referralCode, referredBy, walletBalance, status, cid, fecha, carrito, activo} = resp.usuario;
-        this.userService.user = new User( name, lastname, cedula, phone, email, '***', address, city, department, 'party_type', referralCode, referredBy, walletBalance, status, fecha, activo, carrito, cid, cid );
+        const { name, lastname, cedula, phone, email, address, city, department, referralCode, referredBy, walletBalance, status, cid, fecha, carrito, activo, codearea} = resp.usuario;
+        this.userService.user = new User( name, lastname, cedula, phone, email, '***', address, city, department, 'party_type', referralCode, referredBy, walletBalance, status, fecha, codearea, activo, carrito, cid, cid );
         
         localStorage.setItem('token', resp.token);                          
         this.setLoggedIn(true);
@@ -144,9 +144,9 @@ export class AuthService {
     .pipe(
       tap( (resp: any) => {
 
-        const { name, lastname, cedula, phone, email, address, city, department, referralCode, referredBy, walletBalance, status, cid, fecha, carrito, activo} = resp.usuario;
+        const { name, lastname, cedula, phone, email, address, city, department, referralCode, referredBy, walletBalance, status, cid, fecha, carrito, activo, codearea} = resp.usuario;
 
-        this.userService.user = new User( name, lastname, cedula, phone, email, '***', address, city, department, 'party_type', referralCode, referredBy, walletBalance, status, fecha, activo, carrito, cid, cid );
+        this.userService.user = new User( name, lastname, cedula, phone, email, '***', address, city, department, 'party_type', referralCode, referredBy, walletBalance, status, fecha, codearea, activo, carrito, cid, cid );
 
         localStorage.setItem('token', resp.token);
         this.carritoService.isLogin = true;

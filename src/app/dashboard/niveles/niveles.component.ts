@@ -26,17 +26,15 @@ export class NivelesComponent {
 
   selectUser(user: User){    
     this.userSelected = user;
-    this.ticketWhatsapp = `Hola, ${this.userSelected.name} ${this.userSelected.lastname}. Un gusto saludarte\n`;
+    this.ticketWhatsapp = `Mi lider, ${this.userSelected.name} ${this.userSelected.lastname}. Un gusto saludarte\n veo que no te has activado aun en *Comercio Llanero*. recuerda que tus compras de este mes te activan para el siguiente;\n *animate*, *Comercio Llanero es una excelente opcion para capitalizar* mientras ayudas a muchas personas a mejorar su economia`;
   }
 
   /** ================================================================
    *   ENVIAR WHATSAPP
   ==================================================================== */
-  sendWhatsapp(msg: string){
-    
+  sendWhatsapp(msg: string){    
     let text = msg.replaceAll(' ','+').replaceAll('\n' , '%0A');
-    window.open(`whatsapp://send?text=${text}&phone=${this.userSelected.phone}`);
-    
+    window.open(`whatsapp://send?text=${text}&phone=${this.userSelected.codearea}${this.userSelected.phone.trim()}`);    
   }
 
   /** ======================================================================
